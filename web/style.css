@@ -1,0 +1,191 @@
+/* Tailwind CSS CDN */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+:root {
+  --bg-deep: #0E1116;
+  --bg-panel: #1A1F27;
+  --primary: #4F8CFF;
+  --text-main: #F2F5F9;
+  --text-sub: #9AA4B2;
+  --ok: #34C759;
+  --warn: #FF9500;
+  --err: #FF453A;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: "PingFang SC", -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- 顶部栏 ---------- */
+.topbar {
+  height: 48px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(26, 31, 39, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 20;
+}
+.topbar .title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, var(--primary), #8ab4ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--err);
+  transition: background 0.3s;
+}
+.status-dot.on { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+
+/* ---------- 主区域 ---------- */
+.stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.view {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.view.active { opacity: 1; pointer-events: auto; }
+
+/* ---------- AR 取景态 ---------- */
+#camera-view > #camera {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* WebGL 叠加画布：视频透视绘制在照片位置 */
+#gl {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* 隐藏的视频元素：仅作 WebGL 纹理与音频来源 */
+#ar-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 2px;
+  opacity: 0.01;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.topbar .ver {
+  font-size: 11px;
+  color: var(--text-sub);
+  -webkit-text-fill-color: var(--text-sub);
+  margin-left: 4px;
+}
+
+/* 识别状态提示 */
+#scan-hint {
+  position: absolute;
+  bottom: max(28px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(26, 31, 39, 0.72);
+  backdrop-filter: blur(8px);
+  color: var(--text-sub);
+  font-size: 13px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  z-index: 7;
+  transition: color 0.3s, background 0.3s;
+}
+#scan-hint.locked {
+  color: var(--ok);
+  background: rgba(26, 31, 39, 0.85);
+}
+
+/* 声音开关（自动播放被静音时浮现） */
+#sound-btn {
+  position: absolute;
+  bottom: max(76px, calc(env(safe-area-inset-bottom) + 48px));
+  right: 18px;
+  width: 44px; height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(26, 31, 39, 0.75);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 8;
+  transition: transform 0.12s, background 0.2s;
+}
+#sound-btn.show { display: flex; }
+#sound-btn:active { transform: scale(0.9); background: rgba(79, 140, 255, 0.5); }
+
+/* 加载动画 */
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(79, 140, 255, 0.25);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.primary-btn {
+  padding: 10px 32px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), #3a6fd8);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.35);
+}
+.primary-btn:active { transform: scale(0.95); }
+
+/* 摄像头不可用提示 */
+#fallback-tip {
+  position: absolute; inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 14px;
+  background: var(--bg-deep);
+  z-index: 9;
+}

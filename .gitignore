@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 运行日志
+*.log
+
+# 用户数据（照片/视频/特征为大文件，不入库；保留目录结构）
+data/photos/*
+data/videos/*
+data/features/*
+
+# 注册表包含用户个人关联数据，按需取消注释
+data/registry.json
+
+# 前端第三方库（体积大，通过下载获取）
+web/vendor/
+
+# 工具产物
+.playwright-cli/
+node_modules/

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PhotoPlay - 扫照片 播视频</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <span class="title">PhotoPlay <small class="ver">v5 AR</small></span>
+    <span class="status-dot" id="status-dot" title="服务状态"></span>
+  </header>
+
+  <main class="stage">
+    <!-- AR 取景：全画面自动识别，视频经 WebGL 透视叠加在照片上 -->
+    <section id="camera-view" class="view active">
+      <video id="camera" autoplay playsinline muted></video>
+      <canvas id="gl"></canvas>
+      <video id="ar-video" playsinline></video>
+      <button id="sound-btn" aria-label="开启声音">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm14.6 3 2.2-2.2-1.4-1.4-2.2 2.2-2.2-2.2-1.4 1.4 2.2 2.2-2.2 2.2 1.4 1.4 2.2-2.2 2.2 2.2 1.4-1.4-2.2-2.2z"/></svg>
+      </button>
+      <div id="scan-hint">正在初始化…</div>
+      <div id="fallback-tip">
+        <p>无法访问摄像头</p>
+        <p>请确认已授权摄像头权限，且页面通过 HTTPS 或 localhost 访问</p>
+        <button class="primary-btn" onclick="location.reload()">重试</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="vendor/opencv.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# PhotoPlay 后端依赖（Python 3.10+）
+# 版本为本项目开发验证所用，括号内为约束理由
+
+fastapi>=0.110,<1.0                      # Web 框架（0.x 有破坏性变更风险，锁主版本）
+uvicorn[standard]>=0.29                  # ASGI 服务器（standard 含 uvloop/websockets）
+opencv-contrib-python-headless>=4.8      # ORB 特征匹配与单应性（headless 无 GUI 依赖，服务器适用）
+numpy>=1.24                              # OpenCV 数据载体；2.x 与 opencv>=4.10 兼容
+python-multipart>=0.0.9                  # FastAPI 文件上传（/api/match）必需
