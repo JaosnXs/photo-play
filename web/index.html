@@ -19,7 +19,7 @@
     <section id="camera-view" class="view active">
       <video id="camera" autoplay playsinline muted></video>
       <canvas id="gl"></canvas>
-      <video id="ar-video" playsinline></video>
+      <video id="ar-video" playsinline preload="auto"></video>
       <button id="sound-btn" aria-label="开启声音">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm14.6 3 2.2-2.2-1.4-1.4-2.2 2.2-2.2-2.2-1.4 1.4 2.2 2.2-2.2 2.2 1.4 1.4 2.2-2.2 2.2 2.2 1.4-1.4-2.2-2.2z"/></svg>
       </button>
@@ -33,7 +33,7 @@
   </main>
 </div>
 
-<script src="vendor/opencv.js"></script>
-<script src="app.js"></script>
+<!-- opencv.js 由 cv-worker.js 在 Worker 线程内 importScripts 加载，主线程不再承担其解析/初始化开销 -->
+<script src="app.js" defer></script>
 </body>
 </html>
